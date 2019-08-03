@@ -1,0 +1,24 @@
+---
+- name: Install docker
+  gather_facts: No
+  hosts: nielsen-docker
+  become: true
+  tasks:
+
+    - name: create scripts directory
+      file:
+        path: /scripts
+        state: directory
+
+    - name: Copy twitterstreamer python script file with owner and permissions
+      copy:
+        src: ~/IdeaProjects/nielsen-project/ansible/files/twitter_streamer.py
+        dest: /scripts/twitter_streamer.py
+        owner: root
+        group: root
+        mode: '0744'
+
+    - name: run twitterstreamer python script
+      shell: nohup python /scripts/twitter_streamer.py &
+
+

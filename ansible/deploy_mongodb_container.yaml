@@ -1,0 +1,18 @@
+---
+- name: Deploy MongoDB container
+  gather_facts: No
+  hosts: nielsen-docker
+  become: true
+  tasks:
+#    - name: Deploy MongoDB container ansible module
+#      docker_container:
+#        name: mongodb
+#        image: mongo:4.0.4
+#        ports:
+#          - "0.0.0.0:27017:27017"
+#          - "0.0.0.0:27019:27019"
+    - name: Deploy MongoDB container
+      command: docker run -d -p 27017-27019:27017-27019 --name mongodb mongo:4.0.4
+#      ignore_errors: yes
+#    - name: create Database TwitterStream
+#      command: docker exec -it mongodb mongo --eval "use TwitterStream"

@@ -1,0 +1,56 @@
+---
+- name: Deploy Apache-php container
+  gather_facts: No
+  hosts: nielsen-docker
+  become: true
+  tasks:
+
+    - name: create scripts directory
+      file:
+        path: /apache-php/
+        state: directory
+
+    - name: create apache shared directory
+      file:
+        path: /var/www/html/
+        state: directory
+
+    - name: Copy apache-php Dockerfile
+      copy:
+        src: ~/IdeaProjects/nielsen-project/ansible/files/Dockerfile
+        dest: /apache-php/Dockerfile
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Docker build apache-php container
+      command: docker build -t apache-php /apache-php/
+
+    - name: Copy index.php
+      copy:
+        src: ~/IdeaProjects/nielsen-project/ansible/files/index.php
+        dest: /var/www/html/index.php
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy apache2.conf
+      copy:
+        src: ~/IdeaProjects/nielsen-project/ansible/files/apache2.conf
+        dest: /apache-php/apache2.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Docker run apache-php container
+      command: docker run -d -p 8020:80 -v /var/www/html:/var/www/html --network host --name apache-php apache-php
+
+    - name: Copy apache2.conf into the apache container
+      command: docker cp /apache-php/apache2.conf apache-php:/etc/apache2/apche2.conf
+
+    - name: restarting container to load apache2.conf
+      command: docker restart apache-php
+
+
+
+

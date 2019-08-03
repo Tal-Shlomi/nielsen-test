@@ -1,0 +1,19 @@
+---
+- name: Install docker
+  gather_facts: No
+  hosts: nielsen-docker
+  become: true
+  tasks:
+    - name: add python pip
+      get_url:
+        url: https://bootstrap.pypa.io/get-pip.py
+        dest: /tmp/get-pip.py
+
+    - name: Install python pip
+      command: python /tmp/get-pip.py
+
+    - name: Install python pymongo library
+      command: pip install pymongo==2.7.2
+
+    - name: Install python tweepy library
+      command: pip install --ignore-installed tweepy
