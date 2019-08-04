@@ -1,6 +1,4 @@
-# ===============================================
-# twitter-to-mongo.py v1.0 Created by Sam Delgado
-# ===============================================
+
 from pymongo import Connection
 import json
 from tweepy.streaming import StreamListener
@@ -8,7 +6,7 @@ from tweepy import OAuthHandler
 from tweepy import Stream
 import datetime
 
-# The MongoDB connection info. This assumes your database name is TwitterStream, and your collection name is tweets.
+# The MongoDB connection info. This assumes your database name is TwitterStream, and your collection name is twitterMessagesDocker.
 connection = Connection('localhost', 27017)
 db = connection.TwitterStream
 db.create_collection('twitterMessagesDocker', capped=True, size=10)

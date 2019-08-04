@@ -19,6 +19,6 @@
         mode: '0744'
 
     - name: run twitterstreamer python script
-      shell: nohup python /scripts/twitter_streamer.py &
+      shell: nohup python /scripts/twitter_streamer.py </dev/null >/dev/null 2>&1 &
 
 
